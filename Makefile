@@ -1,7 +1,6 @@
 EXE = bin/main.out
 SRC = $(wildcard src/*.cpp)
 HEADERS = $(wildcard src/*.h)
-# OBJ = obj/symbole.o obj/lexer.o obj/main.o obj/etat.o obj/analyseur.o
 OBJ := $(SRC:src/%.cpp=obj/%.o)
 FLAG = -ggdb -O3 -pedantic -Wall -Wextra -Werror
 CXX = g++
