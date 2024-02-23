@@ -9,8 +9,10 @@ class Analyseur {
 	public:
 	Analyseur();
 
-	Automate & automate;
-	Lexer& lexer;
+	bool analyser(string s);
+
+	Automate* automate;
+	Lexer* lexer;
 };
 
 

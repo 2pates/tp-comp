@@ -1,13 +1,10 @@
 #include "automate.h"
 
 
-Automate::Automate()
-{
+Automate::Automate() {
 	pile_etats.push_back(new I0());
 }
 
-Automate::~Automate()
-{
-}
+Automate::~Automate() {}
 
 

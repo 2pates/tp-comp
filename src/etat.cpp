@@ -4,30 +4,30 @@
 
 
 void decalage(Analyseur& a, Etat* e, Symbole* s) {
-	a.automate.pile_etats.push_back(e);
-	a.automate.pile_symboles.push_back(s);
-	a.lexer.Avancer();
+	a.automate->pile_etats.push_back(e);
+	a.automate->pile_symboles.push_back(s);
+	a.lexer->Avancer();
 }
 
-void reduction(Analyseur& a, Symbole* s, int nbReducedSymbol)
+void reduction(Analyseur& a, Symbole* createdNonTerminal, int nbReducedSymbol)
 {
 	for(int i=0; i < nbReducedSymbol; i++)
 	{
-		a.automate.pile_etats.pop_back();
-		a.automate.pile_symboles.pop_back();
+		a.automate->pile_etats.pop_back();
+		a.automate->pile_symboles.pop_back();
 	}
-	a.automate.pile_symboles.push_back(s);
+	a.automate->pile_symboles.push_back(createdNonTerminal);
 }
 
 
 void transition_simple(Analyseur& a, Etat* e, Symbole* s) {
-	a.automate.pile_etats.push_back(e);
-	a.automate.pile_symboles.push_back(s);
+	a.automate->pile_etats.push_back(e);
+	a.automate->pile_symboles.push_back(s);
 }
 
 
 bool I0::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case INT:
 		decalage(a, new I3(), s);
 		break;
@@ -38,6 +38,7 @@ bool I0::transition(Analyseur& a, Symbole* s) {
 
 	case E:
 		transition_simple(a, new I1(), s);
+		break;
 	
 	default:
 		return false;
@@ -49,7 +50,7 @@ bool I0::transition(Analyseur& a, Symbole* s) {
 
 
 bool I1::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
 		decalage(a, new I4(), s);
 		break;
@@ -72,7 +73,7 @@ bool I1::transition(Analyseur& a, Symbole* s) {
 
 
 bool I2::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case INT:
 		decalage(a, new I3(), s);
 		break;
@@ -83,6 +84,7 @@ bool I2::transition(Analyseur& a, Symbole* s) {
 	
 	case E:
 		transition_simple(a, new I6(), s);
+		break;
 	
 	default:
 		return false;
@@ -94,21 +96,21 @@ bool I2::transition(Analyseur& a, Symbole* s) {
 
 
 bool I3::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
-		reduction(a, s, 5);
+		reduction(a, new Symbole(E), 1);
 		break;
 
 	case MULT:
-		reduction(a, s, 5);
+		reduction(a, new Symbole(E), 1);
 		break;
 	
 	case CLOSEPAR:
-		reduction(a, s, 5);
+		reduction(a, new Symbole(E), 1);
 		break;
 	
 	case FIN:
-		reduction(a, s, 5);
+		reduction(a, new Symbole(E), 1);
 		break;
 	
 	default:
@@ -121,7 +123,7 @@ bool I3::transition(Analyseur& a, Symbole* s) {
 
 
 bool I4::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case INT:
 		decalage(a, new I3(), s);
 		break;
@@ -132,6 +134,7 @@ bool I4::transition(Analyseur& a, Symbole* s) {
 	
 	case E:
 		transition_simple(a, new I7(), s);
+		break;
 	
 	default:
 		return false;
@@ -143,7 +146,7 @@ bool I4::transition(Analyseur& a, Symbole* s) {
 
 
 bool I5::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case INT:
 		decalage(a, new I3(), s);
 		break;
@@ -154,6 +157,7 @@ bool I5::transition(Analyseur& a, Symbole* s) {
 	
 	case E:
 		transition_simple(a, new I8(), s);
+		break;
 	
 	default:
 		return false;
@@ -165,7 +169,7 @@ bool I5::transition(Analyseur& a, Symbole* s) {
 
 
 bool I6::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
 		decalage(a, new I4(), s);
 		break;
@@ -188,9 +192,9 @@ bool I6::transition(Analyseur& a, Symbole* s) {
 
 
 bool I7::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
-		reduction(a, s, 2);
+		reduction(a, new Symbole(E), 3);
 		break;
 
 	case MULT:
@@ -198,11 +202,11 @@ bool I7::transition(Analyseur& a, Symbole* s) {
 		break;
 	
 	case CLOSEPAR:
-		reduction(a, s, 2);
+		reduction(a, new Symbole(E), 2);
 		break;
 
 	case FIN:
-		reduction(a, s, 2);
+		reduction(a, new Symbole(E), 3);
 		break;
 
 	default:
@@ -215,7 +219,7 @@ bool I7::transition(Analyseur& a, Symbole* s) {
 
 
 bool I8::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
 		reduction(a, new Symbole(E), 3);
 		break;
@@ -236,8 +240,9 @@ bool I8::transition(Analyseur& a, Symbole* s) {
 	return true;
 }
 
+
 bool I9::transition(Analyseur& a, Symbole* s) {
-	switch ((int)s) {
+	switch (*s) {
 	case PLUS:
 		reduction(a, new Symbole(E), 3);
 		break;

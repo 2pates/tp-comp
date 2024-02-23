@@ -1,18 +1,21 @@
 #include <iostream>
 #include "lexer.h"
+#include "analyseur.h"
 
-
-int main(void) {
-   string chaine("(1+34)*123");
-
-   Lexer l(chaine);
-
-   Symbole * s;
-   while(*(s=l.Consulter())!=FIN) {
-      s->Affiche();
-      cout<<endl;
-      l.Avancer();
+int main(int argc, char** argv) {
+   string chaine;
+   if (argc == 2) {
+      chaine = argv[1];
+   } else {
+      chaine = "(1+34)*123";
    }
+   Analyseur a;
+
+
+
+   a.analyser(chaine);
+
    return 0;
 }
+
 

@@ -3,7 +3,7 @@
 Symbole * Lexer::Consulter() {
    if (!tampon) {
 
-      if (tete==flux.length())
+      if (tete==(int)flux.length())
          tampon = new Symbole(FIN);
       else
       {

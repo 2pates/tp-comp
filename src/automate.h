@@ -19,8 +19,4 @@ class Automate {
 };
 
 
-
-
-
-
 #endif
