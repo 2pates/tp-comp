@@ -1,30 +1,51 @@
 #include "etat.h"
 #include "analyseur.h"
 
-
-
 void decalage(Analyseur& a, Etat* e, Symbole* s) {
 	a.automate->pile_etats.push_back(e);
 	a.automate->pile_symboles.push_back(s);
 	a.lexer->Avancer();
 }
 
-void reduction(Analyseur& a, Symbole* createdNonTerminal, int nbReducedSymbol)
-{
-	for(int i=0; i < nbReducedSymbol; i++)
-	{
-		a.automate->pile_etats.pop_back();
-		a.automate->pile_symboles.pop_back();
-	}
-	a.automate->pile_symboles.push_back(createdNonTerminal);
-}
+void reduction(Analyseur& a, int ruleNumber) {
+	Symbole* createdExpr;
+	switch (ruleNumber) {
+	case 1:	
+		break;
+	case 2:
+		Symbole* right = a.automate->pile_symboles.pop_back();
+		Symbole* op = a.automate->pile_symboles.pop_back();
+		Symbole* left = a.automate->pile_symboles.pop_back();
+		createdExpr = new ExprPlus(left, right);
+		break;
+	case 3:
+		Symbole* right = a.automate->pile_symboles.pop_back();
+		Symbole* op = a.automate->pile_symboles.pop_back();
+		Symbole* left = a.automate->pile_symboles.pop_back();
+		createdExpr = new ExprMult(left, right);
+		break;
 
+	case 4:
+		Symbole* rightPar = a.automate->pile_symboles.pop_back();
+		Symbole* expr = a.automate->pile_symboles.pop_back();
+		Symbole* leftPar = a.automate->pile_symboles.pop_back();
+		createdExpr = new Expr(expr);
+		break;
+	case 5: 
+		Symbole* val = a.automate->pile_symboles.pop_back();
+		createdExpr = new Expr(val);
+		break;
+	default:
+		break;
+	}
+	a.automate->pile_symboles.push_back(createdExpr);
+	a.automate->pile_etats.back()->transition();
+}
 
 void transition_simple(Analyseur& a, Etat* e, Symbole* s) {
 	a.automate->pile_etats.push_back(e);
 	a.automate->pile_symboles.push_back(s);
 }
-
 
 bool I0::transition(Analyseur& a, Symbole* s) {
 	switch (*s) {
@@ -98,19 +119,19 @@ bool I2::transition(Analyseur& a, Symbole* s) {
 bool I3::transition(Analyseur& a, Symbole* s) {
 	switch (*s) {
 	case PLUS:
-		reduction(a, new Symbole(E), 1);
+		reduction(a, 5);
 		break;
 
 	case MULT:
-		reduction(a, new Symbole(E), 1);
+		reduction(a, 5);
 		break;
 	
 	case CLOSEPAR:
-		reduction(a, new Symbole(E), 1);
+		reduction(a, 5);
 		break;
 	
 	case FIN:
-		reduction(a, new Symbole(E), 1);
+		reduction(a, 5);
 		break;
 	
 	default:

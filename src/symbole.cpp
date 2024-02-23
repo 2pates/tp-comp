@@ -10,3 +10,14 @@ void Entier::Affiche() {
    cout<<"("<<valeur<<")";
 }
 
+int Expr::eval() {}
+
+int ExprPlus::eval() {}
+
+int ExprMult::eval() {}
+
+
+
+
+
+
