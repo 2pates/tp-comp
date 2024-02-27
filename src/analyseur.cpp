@@ -5,22 +5,38 @@ Analyseur::Analyseur()
 {
     automate = new Automate();
     lexer = nullptr;
+    accepted = false;
+}
+
+Analyseur::~Analyseur()
+{
+    delete automate;
 }
 
 bool Analyseur::analyser(string chaine)
 {
     lexer = new Lexer(chaine);
     Symbole *s;
-    while (*(s = lexer->Consulter()) != FIN)
+    accepted = false;
+    while (!accepted)
     {
-        s->Affiche();
-        std::cout << std::endl;
-        // lexer->Avancer();
-        automate->pile_etats.back()->transition(*this, s);
+        s = lexer->Consulter();
+        if (!automate->pile_etats.back()->transition(*this, s))
+        {
+            cout << "Erreur de syntaxe" << endl;
+            break;
+        }
     }
-    
-    
+
+    if (accepted)
+    {
+        cout << "Analyse terminée" << endl;
+        Expr *expr = (Expr *)automate->pile_symboles.back();
+        expr->Affiche();
+        cout << " = " << expr->Eval() << endl;
+        // delete expr;
+    }
     delete lexer;
     lexer = nullptr;
-    return true;
+    return accepted;
 }

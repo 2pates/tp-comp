@@ -6,14 +6,17 @@
 
 
 class Analyseur {
-	public:
+public:
 	Analyseur();
+
+	~Analyseur();
 
 	bool analyser(string s);
 
 	Automate* automate;
 	Lexer* lexer;
-};
+	bool accepted;
+	};
 
 
 
