@@ -45,33 +45,37 @@ class Expr : public Symbole
 {
 public:
    Expr() : Symbole(E) {}
-   // virtual void Affiche();
-   int eval();
+   virtual ~Expr() {}
+   virtual void Affiche() = 0;
+   virtual int Eval() = 0;
 };
 
 class ExprPlus : public Expr
 {
 public:
-   ExprPlus(Symbole *a, Symbole *b) : left(a), right(b) {}
-   Symbole *left, *right;
-   // virtual void Affiche();
-   int eval();
+   ExprPlus(Expr *a, Expr *b) : left(a), right(b) {}
+   virtual ~ExprPlus() { delete left; delete right; }
+   Expr *left, *right;
+   virtual void Affiche();
+   virtual int Eval();
 };
 
 class ExprMult : public Expr
 {
 public:
-   ExprMult(Symbole *a, Symbole *b) : left(a), right(b) {}
-   Symbole *left, *right;
-   // virtual void Affiche();
-   int eval();
+   ExprMult(Expr *a, Expr *b) : left(a), right(b) {}
+   virtual ~ExprMult() { delete left; delete right; }
+   Expr *left, *right;
+   virtual void Affiche();
+   virtual int Eval();
 };
 
 class ExprCst : public Expr
 {
 public:
-   ExprCst(Symbole *value) : val(value) {}
-   Symbole *val;
-   // virtual void Affiche();
-   int eval();
+   ExprCst(Entier *value) : val(value) {}
+   virtual ~ExprCst() { delete val; }
+   Entier *val;
+   virtual void Affiche();
+   virtual int Eval();
 };

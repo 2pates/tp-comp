@@ -12,22 +12,42 @@ void Entier::Affiche()
    cout << "(" << valeur << ")";
 }
 
-int Expr::eval()
+void ExprPlus::Affiche()
 {
-   return this->eval();
+   cout << "(";
+   left->Affiche();
+   cout << "+";
+   right->Affiche();
+   cout << ")";
 }
 
-int ExprPlus::eval()
+void ExprMult::Affiche()
 {
-   return 0;
+   cout << "(";
+   left->Affiche();
+   cout << "*";
+   right->Affiche();
+   cout << ")";
 }
 
-int ExprMult::eval()
+void ExprCst::Affiche()
 {
-   return 0;
+   cout << "(";
+   val->Affiche();
+   cout << ")";
 }
 
-int ExprCst::eval()
+int ExprPlus::Eval()
 {
-   return 0;
+   return left->Eval() + right->Eval();
+}
+
+int ExprMult::Eval()
+{
+   return left->Eval() * right->Eval();
+}
+
+int ExprCst::Eval()
+{
+   return val->valeur;
 }
