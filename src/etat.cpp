@@ -1,8 +1,11 @@
 #include "etat.h"
 #include "analyseur.h"
+#include <iostream>
+using namespace std;
 
 void decalage(Analyseur &a, Etat *e, Symbole *s)
 {
+	cout << "D" << e->ident << endl;
 	a.automate->pile_etats.push_back(e);
 	a.automate->pile_symboles.push_back(s);
 	a.lexer->Avancer();
@@ -10,6 +13,7 @@ void decalage(Analyseur &a, Etat *e, Symbole *s)
 
 void reduction(Analyseur &a, int ruleNumber)
 {
+	cout << "R" << ruleNumber << endl;
 	Symbole *createdExpr;
 	switch (ruleNumber)
 	{
@@ -19,15 +23,19 @@ void reduction(Analyseur &a, int ruleNumber)
 	}
 	case 2:
 	{
-		Symbole *right = a.automate->pile_symboles.back();
+		Expr *right = (Expr *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
-		a.automate->pile_symboles.pop_back(); // pop plus
+		delete a.automate->pile_symboles.back();
+		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
-		Symbole *left = a.automate->pile_symboles.back();
+		Expr *left = (Expr *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
 		createdExpr = new ExprPlus(left, right);
@@ -35,15 +43,19 @@ void reduction(Analyseur &a, int ruleNumber)
 	}
 	case 3:
 	{
-		Symbole *right = a.automate->pile_symboles.back();
+		Expr *right = (Expr *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
+		delete a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back(); // pop mult
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
-		Symbole *left = a.automate->pile_symboles.back();
+		Expr *left = (Expr *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
 		createdExpr = new ExprMult(left, right);
@@ -51,24 +63,30 @@ void reduction(Analyseur &a, int ruleNumber)
 	}
 	case 4:
 	{
+		delete a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back(); // pop right parenthesis
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
-		Symbole *expr = a.automate->pile_symboles.back();
+		Expr *expr = (Expr *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
+		delete a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back(); // pop left parenthesis
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
-		createdExpr = new ExprCst(expr);
+		createdExpr = expr;
 
 		break;
 	}
 	case 5:
 	{
-		Symbole *val = a.automate->pile_symboles.back();
+		Entier *val = (Entier *)a.automate->pile_symboles.back();
 		a.automate->pile_symboles.pop_back();
+		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
 		createdExpr = new ExprCst(val);
@@ -83,10 +101,10 @@ void reduction(Analyseur &a, int ruleNumber)
 	a.automate->pile_etats.back()->transition(a, createdExpr);
 }
 
-void transition_simple(Analyseur &a, Etat *e, Symbole *s)
+void transition_simple(Analyseur &a, Etat *e)
 {
+	cout << "T" << e->ident << endl;
 	a.automate->pile_etats.push_back(e);
-	a.automate->pile_symboles.push_back(s);
 }
 
 bool I0::transition(Analyseur &a, Symbole *s)
@@ -102,7 +120,7 @@ bool I0::transition(Analyseur &a, Symbole *s)
 		break;
 
 	case E:
-		transition_simple(a, new I1(), s);
+		transition_simple(a, new I1());
 		break;
 
 	default:
@@ -126,7 +144,7 @@ bool I1::transition(Analyseur &a, Symbole *s)
 		break;
 
 	case FIN:
-		// idk ?
+		a.accepted = true;
 		break;
 
 	default:
@@ -150,7 +168,7 @@ bool I2::transition(Analyseur &a, Symbole *s)
 		break;
 
 	case E:
-		transition_simple(a, new I6(), s);
+		transition_simple(a, new I6());
 		break;
 
 	default:
@@ -202,7 +220,7 @@ bool I4::transition(Analyseur &a, Symbole *s)
 		break;
 
 	case E:
-		transition_simple(a, new I7(), s);
+		transition_simple(a, new I7());
 		break;
 
 	default:
@@ -226,7 +244,7 @@ bool I5::transition(Analyseur &a, Symbole *s)
 		break;
 
 	case E:
-		transition_simple(a, new I8(), s);
+		transition_simple(a, new I8());
 		break;
 
 	default:
