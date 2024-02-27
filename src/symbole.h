@@ -54,7 +54,11 @@ class ExprPlus : public Expr
 {
 public:
    ExprPlus(Expr *a, Expr *b) : left(a), right(b) {}
-   virtual ~ExprPlus() { delete left; delete right; }
+   virtual ~ExprPlus()
+   {
+      delete left;
+      delete right;
+   }
    Expr *left, *right;
    virtual void Affiche();
    virtual int Eval();
@@ -64,7 +68,11 @@ class ExprMult : public Expr
 {
 public:
    ExprMult(Expr *a, Expr *b) : left(a), right(b) {}
-   virtual ~ExprMult() { delete left; delete right; }
+   virtual ~ExprMult()
+   {
+      delete left;
+      delete right;
+   }
    Expr *left, *right;
    virtual void Affiche();
    virtual int Eval();

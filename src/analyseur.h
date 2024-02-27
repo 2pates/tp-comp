@@ -4,8 +4,8 @@
 #include "automate.h"
 #include "lexer.h"
 
-
-class Analyseur {
+class Analyseur
+{
 public:
 	Analyseur();
 
@@ -13,12 +13,9 @@ public:
 
 	bool analyser(string s);
 
-	Automate* automate;
-	Lexer* lexer;
+	Automate *automate;
+	Lexer *lexer;
 	bool accepted;
-	};
-
-
+};
 
 #endif
-

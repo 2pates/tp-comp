@@ -1,11 +1,12 @@
 #include "automate.h"
 
-
-Automate::Automate() {
+Automate::Automate()
+{
 	pile_etats.push_back(new I0());
 }
 
-Automate::~Automate() {
+Automate::~Automate()
+{
 	for (auto it = pile_etats.begin(); it != pile_etats.end(); it++)
 	{
 		delete *it;

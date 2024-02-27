@@ -5,18 +5,16 @@
 #include "etat.h"
 #include "symbole.h"
 
+class Automate
+{
+private:
+	/* data */
+public:
+	Automate(/* args */);
+	~Automate();
 
-
-class Automate {
-	private:
-		/* data */
-	public:
-		Automate(/* args */);
-		~Automate();
-
-		deque<Etat*> pile_etats;
-		deque<Symbole*> pile_symboles;
+	deque<Etat *> pile_etats;
+	deque<Symbole *> pile_symboles;
 };
-
 
 #endif
