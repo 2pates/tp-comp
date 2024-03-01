@@ -36,7 +36,6 @@ bool Analyseur::analyser(string chaine)
         Expr *expr = (Expr *)automate->pile_symboles.back();
         expr->Affiche();
         cout << " = " << expr->Eval() << endl;
-        // delete expr;
     }
     delete lexer;
     lexer = nullptr;

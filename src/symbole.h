@@ -20,7 +20,6 @@ const string Etiquettes[] = {"OPENPAR", "CLOSEPAR", "PLUS", "MULT", "INT", "FIN"
 class Symbole
 {
 public:
-   // Symbole() {}
    Symbole(int i) : ident(i) {}
    virtual ~Symbole() {}
    operator int() const { return ident; }
