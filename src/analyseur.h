@@ -4,6 +4,9 @@
 #include "automate.h"
 #include "lexer.h"
 
+
+
+
 class Analyseur
 {
 public:
@@ -19,3 +22,4 @@ public:
 };
 
 #endif
+

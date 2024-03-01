@@ -3,6 +3,8 @@
 #include <iostream>
 using namespace std;
 
+
+
 void decalage(Analyseur &a, Etat *e, Symbole *s)
 {
 	cout << "D" << e->ident << endl;
@@ -14,8 +16,8 @@ void decalage(Analyseur &a, Etat *e, Symbole *s)
 void reduction(Analyseur &a, int ruleNumber)
 {
 	cout << "R" << ruleNumber << endl;
-	Symbole *createdExpr;
-	switch (ruleNumber)
+	Symbole *createdExpr = nullptr;
+	switch (ruleNumber) // r1, r2, ... , r5
 	{
 	case 1:
 	{
@@ -29,7 +31,7 @@ void reduction(Analyseur &a, int ruleNumber)
 		a.automate->pile_etats.pop_back();
 
 		delete a.automate->pile_symboles.back();
-		a.automate->pile_symboles.pop_back();
+		a.automate->pile_symboles.pop_back(); // pop plus
 		delete a.automate->pile_etats.back();
 		a.automate->pile_etats.pop_back();
 
@@ -354,3 +356,7 @@ bool I9::transition(Analyseur &a, Symbole *s)
 
 	return true;
 }
+
+
+
+

@@ -2,6 +2,9 @@
 #include "lexer.h"
 #include "analyseur.h"
 
+
+
+
 int main(int argc, char **argv)
 {
    string chaine;
@@ -19,3 +22,7 @@ int main(int argc, char **argv)
 
    return 0;
 }
+
+
+
+

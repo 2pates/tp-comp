@@ -1,9 +1,14 @@
 #ifndef __ETAT__
 #define __ETAT__
 
+
 class Analyseur;
 
+
 #include "symbole.h"
+
+
+
 
 class Etat
 {
@@ -86,3 +91,4 @@ public:
 };
 
 #endif
+

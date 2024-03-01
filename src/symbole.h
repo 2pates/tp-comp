@@ -30,6 +30,7 @@ protected:
    int ident;
 };
 
+
 class Entier : public Symbole
 {
 public:
@@ -49,6 +50,7 @@ public:
    virtual void Affiche() = 0;
    virtual int Eval() = 0;
 };
+
 
 class ExprPlus : public Expr
 {
@@ -87,3 +89,6 @@ public:
    virtual void Affiche();
    virtual int Eval();
 };
+
+
+

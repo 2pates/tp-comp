@@ -4,6 +4,8 @@
 #include "symbole.h"
 using namespace std;
 
+
+
 class Lexer
 {
 
@@ -19,3 +21,5 @@ protected:
    int tete;
    Symbole *tampon;
 };
+
+

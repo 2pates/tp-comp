@@ -5,6 +5,8 @@
 #include "etat.h"
 #include "symbole.h"
 
+
+
 class Automate
 {
 private:
@@ -18,3 +20,4 @@ public:
 };
 
 #endif
+

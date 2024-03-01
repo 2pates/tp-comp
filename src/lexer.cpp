@@ -1,5 +1,7 @@
 #include "lexer.h"
 
+
+
 Symbole *Lexer::Consulter()
 {
    if (!tampon)
@@ -55,3 +57,6 @@ void Lexer::Avancer()
 {
    tampon = nullptr;
 }
+
+
+

@@ -1,6 +1,8 @@
 #include <iostream>
 #include "analyseur.h"
 
+
+
 Analyseur::Analyseur()
 {
     automate = new Automate();
@@ -40,3 +42,6 @@ bool Analyseur::analyser(string chaine)
     lexer = nullptr;
     return accepted;
 }
+
+
+
