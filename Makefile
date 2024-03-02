@@ -2,7 +2,7 @@ EXE = bin/main.out
 SRC = $(wildcard src/*.cpp)
 HEADERS = $(wildcard src/*.h)
 OBJ := $(SRC:src/%.cpp=obj/%.o)
-FLAG = -ggdb -O3 -pedantic -Wall -Wextra -Werror
+FLAG = -ggdb -O3 -pedantic -Wall -Wextra -Werror -DDEBUG
 CXX = g++
 
 # $@ nom de la cible
@@ -20,14 +20,20 @@ obj/%.o : src/%.cpp
 
 # --------------------  -------------------- #
 
+.PHONY:clean
 clean : ## supprime les dépendances, les fichiers objets, la doc et les executables
 	@echo "suppression des objets"
 	@rm -f $(OBJ)
-	@echo "suppression de la documentation"
-	@rm -rf doc/html* doc/xml*
 	@echo "suppression des executables"
 	@rm -f $(EXE)
+	@echo "création des dossiers (si nécessaire)"
+	@mkdir -p bin obj
 
+
+
+.PHONY:zip
+zip : clean ## prépare pour le rendu et met le dépot dans un zip
+	zip -r ../MAISON-SERPINET.zip . -i *.cpp *.h Makefile */
 
 
 
